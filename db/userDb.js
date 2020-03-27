@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 require('./connectDb')
 //创建表头
 let martin = new mongoose.Schema({
-    name:{type: String,required:true},
-    pass:{type: String,required:true}
+    us:{type: String,required:true},
+    ps:{type: String,required:true}
 },
 {
     // 集合名称

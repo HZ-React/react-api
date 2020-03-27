@@ -1,6 +1,7 @@
 const express=require('express')
 const router = express.Router()
-const Martin = require('../db/userDb')
+const martin=require('../db/userDb')
+// const {findAllAdmin} = require('../dbConctor/user')
 
 /**
  * @api {git} /user/getalldata   获取用户信息
@@ -12,11 +13,54 @@ const Martin = require('../db/userDb')
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 用户信息信息
  */
-router.get('/getalldata',(req,res)=>{
-  Martin.find({}).then(data=>{
-    res.send({mes:'111',data})
+//增加
+router.post('/add',(req,res)=>{
+  let {us,ps}=req.body
+  console.log(us)
+  martin.insertMany({us,ps})
+  .then(data=>{
+    res.send({mes:'增加成功',code:0})
+  })
+  .catch(err=>{
+    res.send({mes:'添加失败',code:-1})
   })
 })
+//查找
+router.get('/find',(req,res)=>{
+  let {us,ps}=req.query
+  martin.find({us,ps})
+  .then(data=>{
+    res.send({mes:'成功',code:0})
+  })
+  .catch(err=>{
+    res.send({mes:'失败',code:-1})
+  })
+})
+//删除
+router.get('/del',(req,res)=>{
+  let {_id}=req.query
+  martin.deleteOne({_id})
+  .then(data=>{
+    res.send({mes:'成功',code:0})
+  })
+  .catch(err=>{
+    res.send({mes:'失败',code:-1})
+  })
+})
+//更改
+router.post('/change',(req,res)=>{
+  let {_id,obj}=req.body
+  martin.updateOne({_id},obj)
+  .then(data=>{
+    res.send({mes:'成功',code:0})
+  })
+  .catch(err=>{
+    res.send({mes:'失败',code:-1})
+  })
+})
+
+
+
 
 
 module.exports = router
