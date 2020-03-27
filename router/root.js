@@ -2,7 +2,8 @@
 const express=require('express')
 const router = express.Router()
 const  Root=require ('../db/rootDb')
-
+const {sendToken} = require('../util/jwt')
+const superAdmin = require('../middleware/superAdmin')
 /**
  * @api {git} /admin/getalladmin   获取管理员信息
  * @apiName getalladmin
@@ -16,7 +17,7 @@ const  Root=require ('../db/rootDb')
 
 //  查询
 router.get('/find',(req,res)=>{//后面
-    Root.find(ctx).then(body=>{
+    Root.find().then(body=>{
         res.send(body)
     })
 })
@@ -34,7 +35,8 @@ router.post('/login',(req,res)=>{
     Root.findOne({us,ps})
     .then(data=>{
         if(data!==null){
-            res.send({code:0,data,msg:'查询成功'})
+            let token = sendToken({us,ps})
+            res.send({code:0,data,msg:'查询成功',token})
         }else{
             res.send({code:-1,msg:'查询失败'})
         }
