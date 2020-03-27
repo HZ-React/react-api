@@ -14,7 +14,7 @@ const superAdmin = require('../middleware/superAdmin')
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 管理员信息
  */
-
+router.use(superAdmin)
 
 
 //  查询
