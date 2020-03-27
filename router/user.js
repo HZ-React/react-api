@@ -1,7 +1,11 @@
 const express=require('express')
 const router = express.Router()
+
 const martin=require('../db/userDb')
 // const {findAllAdmin} = require('../dbConctor/user')
+
+const Martin = require('../db/goodsDb')
+
 
 /**
  * @api {git} /user/getalldata   获取用户信息

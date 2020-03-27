@@ -1,7 +1,12 @@
 const {verifyToken} = require('../util/jwt')
 // 验证token中间件
 let verifyTokenMiddle = (req,res,next) =>{
+    if(req.originalUrl === '/root/login'){
+        next()
+        return false
+    }
     let {token} = req.body
+    if(!token){ token = req.query}
     if(!token){
         res.send({err:-997,mes:'token丢失'})
         return false
