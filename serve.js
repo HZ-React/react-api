@@ -2,7 +2,11 @@ const express=require('express')
 const bodyParser = require('body-parser')
 const admin = require('./router/admin')
 const user = require('./router/user')
+
+const goods = require('./router/goods')
+
 const root =require('./router/root')
+
 const  path = require('path')
 const verifyTokenMiddle = require('./middleware/verifyTokenMiddle')
 
@@ -17,7 +21,11 @@ app.use(verifyTokenMiddle)
 
 app.use('/admin',admin)
 app.use('/user',user)
+
+app.use('/goods',goods)
+
 app.use('/root',root)//前面
+
 
 app.listen(3000,()=>{
   console.log('服务器启动成功')
