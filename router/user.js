@@ -1,6 +1,6 @@
 const express=require('express')
 const router = express.Router()
-const Martin = require('../db/userDb')
+const Martin = require('../db/goodsDb')
 
 /**
  * @api {git} /user/getalldata   获取用户信息
