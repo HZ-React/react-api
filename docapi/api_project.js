@@ -1,4 +1,4 @@
-{
+define({
   "name": "api",
   "version": "0.1.0",
   "description": "HZ-react-api接口文档",
@@ -9,8 +9,8 @@
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2020-03-26T14:54:14.629Z",
+    "time": "2020-03-27T08:11:08.899Z",
     "url": "http://apidocjs.com",
     "version": "0.20.0"
   }
-}
+});
