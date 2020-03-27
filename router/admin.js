@@ -13,9 +13,10 @@ const {findAllAdmin} = require('../dbConctor/admin')
  * @apiSuccess {String} data 管理员信息
  */
 router.get('/getalladmin',(req,res)=>{
-  findAllAdmin().then(result=>{
+
+  findAllAdmin({}).then(result=>{
     if(result.length > 0){
-      res.send({msg:'获取成功',code:0,data})
+      res.send({msg:'获取成功',code:0,result})
     }else{
       res.send({msg:'获取失败',code:-1})
     } 
