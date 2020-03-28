@@ -6,7 +6,7 @@ let verifyTokenMiddle = (req,res,next) =>{
         return false
     }
     let {token} = req.body
-    if(!token){ token = req.query}
+    if(!token){ token = req.query.token}
     if(!token){
         res.send({err:-997,mes:'token丢失'})
         return false
