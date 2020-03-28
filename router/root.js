@@ -16,7 +16,6 @@ const superAdmin = require('../middleware/superAdmin')
  */
 
 
-
 //  查询
 router.get('/find',(req,res)=>{//后面
     Root.find()
@@ -24,14 +23,14 @@ router.get('/find',(req,res)=>{//后面
     .catch(err=>res.send({code:-1,err,msg:'查询失败'}))
 })
 // 添加
-router.post('/add',(req,res)=>{//后面
+router.post('/add',superAdmin,(req,res)=>{//后面
     let{us,ps}=req.body
     Root.insertMany({us,ps})
     .then(data=>res.send({code:0,data,msg:'添加成功'}))
     .catch(err=>res.send({code:-1,err,msg:'添加失败'}))
 })
 // //删除
-router.post('/del',(req,res)=>{
+router.post('/del',superAdmin,(req,res)=>{
     let {_id}=req.body
     Root.deleteOne({_id})
     .then(data=>res.send({code:0,data,msg:'删除成功'}))
