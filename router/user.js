@@ -30,7 +30,7 @@ router.get('/find',(req,res)=>{
   let {us,ps}=req.query
   martin.find({us,ps})
   .then(data=>{
-    res.send({mes:'成功',code:0})
+    res.send({mes:'成功',code:0,data})
   })
   .catch(err=>{
     res.send({mes:'失败',code:-1})
@@ -53,6 +53,18 @@ router.post('/change',(req,res)=>{
   martin.updateOne({_id},obj)
   .then(data=>{
     res.send({mes:'成功',code:0})
+  })
+  .catch(err=>{
+    res.send({mes:'失败',code:-1})
+  })
+  
+})
+//列表渲染
+router.get('/list',(req,res)=>{
+  let {}=req.body
+  martin.find({})
+  .then(data=>{
+    res.send({mes:'成功',code:0,data})
   })
   .catch(err=>{
     res.send({mes:'失败',code:-1})
