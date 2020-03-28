@@ -6,6 +6,17 @@ const  upload = multer({})
 const router = express.Router()
 const Zhangcaijiang = require('../db/goodsDb')
 
+//查询一个商品的信息
+router.post('/goodsone',(req,res)=>{
+  let {_id}=req.body
+  console.log(_id)
+  Zhangcaijiang.findOne({_id}).then(data=>{
+    //   console.log(data)
+    res.send({mes:'数据查询成功',data})
+  }).catch((err)=>{
+   console.log(err)
+  })
+})
 /**
  * @api {git} /goods/goodslist   获取商品信息
  * @apiName goodslist
