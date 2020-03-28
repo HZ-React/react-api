@@ -14,7 +14,7 @@ const Zhangcaijiang = require('../db/goodsDb')
 router.get('/goodslist',(req,res)=>{
   Zhangcaijiang.find({}).then(data=>{
     //   console.log(data)
-    res.send({mes:'111',data})
+    res.send({mes:'数据查询成功',data})
   })
 })
 /**
