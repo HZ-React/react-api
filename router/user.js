@@ -2,9 +2,6 @@ const express=require('express')
 const router = express.Router()
 
 const martin=require('../db/userDb')
-// const {findAllAdmin} = require('../dbConctor/user')
-
-const Martin = require('../db/goodsDb')
 
 
 /**
@@ -20,7 +17,6 @@ const Martin = require('../db/goodsDb')
 //增加
 router.post('/add',(req,res)=>{
   let {us,ps}=req.body
-  console.log(us)
   martin.insertMany({us,ps})
   .then(data=>{
     res.send({mes:'增加成功',code:0})

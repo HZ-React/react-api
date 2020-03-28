@@ -3,11 +3,9 @@ const router = express.Router()
 const Zhangcaijiang = require('../db/goodsDb')
 
 /**
- * @api {git} /user/getalldata   获取用户信息
- * @apiName getalldata
- * @apiGroup user
- *
- *
+ * @api {git} /goods/goodslist   获取商品信息
+ * @apiName goodslist
+ * @apiGroup goods
  * @apiSuccess {String} err  状态码.
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 用户信息信息
@@ -19,6 +17,14 @@ router.get('/goodslist',(req,res)=>{
     res.send({mes:'111',data})
   })
 })
+/**
+ * @api {git} /goods/goodsadd   增加货品信息
+ * @apiName goodsadd
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 //货品增加
 router.post('/goodsadd',(req,res)=>{
     let {name,desc,price,path,stock,putaway,type} =req.body
@@ -28,7 +34,15 @@ router.post('/goodsadd',(req,res)=>{
   }).catch((err)=>{
     res.send({err:-1,msg:'插入失败'})
   })
-})  
+})
+/**
+ * @api {git} /goods/goodsdel   删除货品信息
+ * @apiName goodsdel
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 //货品删除
 router.post('/goodsdel',(req,res)=>{
     // 获取要删除数据的id
@@ -37,6 +51,14 @@ router.post('/goodsdel',(req,res)=>{
     .then(()=>{res.send({err:0,msg:'删除成功'})})
     .catch((err)=>{res.send({err:-1,msg:'删除失败请重试'})}) 
   })
+  /**
+ * @api {git} /goods/goodsupdate   更新货品信息
+ * @apiName goodsupdate
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 //货品更新
 router.post('/goodsupdate',(req,res)=>{
     let {_id,name,desc,price,path,stock,putaway,type}=req.body
@@ -48,6 +70,14 @@ router.post('/goodsupdate',(req,res)=>{
     res.send({err:-1,msg:'更新失败'})
     })
 })
+/**
+ * @api {git} /goods/goodsbypage   分页货品信息
+ * @apiName goodsbypage
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 //分页查询
 router.post('/goodsbypage',async (req,res)=>{
     let allGoods=await Zhangcaijiang.find()
@@ -62,6 +92,14 @@ router.post('/goodsbypage',async (req,res)=>{
         (err)=>{res.send({err:-1,msg:'查询失败请重试'})}
     })  
 })
+/**
+ * @api {git} /goods/goodsbykw   模糊商品信息
+ * @apiName goodsbykw
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 //关键字查询模糊查询
 let findGoodGByKw = async (kw,page,pageSize)=>{
     // 通过正则表达式匹配关键字
@@ -92,6 +130,14 @@ let findGoodGByKw = async (kw,page,pageSize)=>{
     .catch((err)=>{res.send({err:-1,msg:'查询失败请重试'})})
   })
   //分类查询
+  /**
+ * @api {git} /goods/goodsbytype   分类商品信息
+ * @apiName goodsbytype
+ * @apiGroup goods
+ * @apiSuccess {String} err  状态码.
+ * @apiSuccess {String} msg  信息提示.
+ * @apiSuccess {String} data 用户信息信息
+ */
 let  findGoodByType = async (type) =>{
     let result = await Zhangcaijiang.find({type})
     return result
