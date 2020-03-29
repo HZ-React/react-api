@@ -17,6 +17,18 @@ router.post('/goodsone',(req,res)=>{
    console.log(err)
   })
 })
+//更新一个商品的信息
+// router.post('/goodsupdate',(req,res)=>{
+//   let {_id}=req.body
+//   let {name,desc,price,path,stock,putaway,type} =req.body
+//   console.log(_id)
+//   Zhangcaijiang.findByIdAndUpdate({_id},{name,desc,price,path,stock,putaway,type}).then(data=>{
+//     //   console.log(data)
+//     res.send({mes:'数据更新成功',data})
+//   }).catch((err)=>{
+//    console.log(err)
+//   })
+// })
 /**
  * @api {git} /goods/goodslist   获取商品信息
  * @apiName goodslist
@@ -105,8 +117,8 @@ router.post('/goodsbypage',async (req,res)=>{
     let page = req.body.page||1 //查询的第几页数据
     let pageSize = req.body.pageSize ||2 //每页几条数据
     Zhangcaijiang.find().skip((Number(page)-1)*pageSize).limit(Number(pageSize)).then((data)=>{
-    //  console.log(data)
-     res.send({err:0,msg:'查询成功',data})
+     console.log(data)
+     res.send({err:0,msg:'查询成功',data,allCount})
     }).catch(()=>{
         (err)=>{res.send({err:-1,msg:'查询失败请重试'})}
     })  
@@ -157,14 +169,21 @@ let findGoodGByKw = async (kw,page,pageSize)=>{
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 用户信息信息
  */
-let  findGoodByType = async (type) =>{
-    let result = await Zhangcaijiang.find({type})
-    return result
+let  findGoodByType = async (type,page,pageSize) =>{
+    let allGoods=await Zhangcaijiang.find({type})
+    let allCount=allGoods.length
+    let result = await Zhangcaijiang.find({type}).skip(Number((page-1)*pageSize)).limit(Number(pageSize))
+     
+    // let allCount=result.length
+    console.log(allCount)
+    return {result,allCount}
   }
 router.post('/goodsbytype',(req,res)=>{
     let {type} = req.body 
+    let page = req.body.page||1
+    let pageSize = req.body.pageSize||2
     console.log(type)
-    findGoodByType(type)
+    findGoodByType(type,page,pageSize)
     .then((data)=>{
      res.send({err:0,msg:'查询成功',list:data})
    })
