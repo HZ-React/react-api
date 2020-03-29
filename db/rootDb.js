@@ -5,6 +5,8 @@ require('./connectDb')
 let rootScheme=mongoose.Schema({
     us:{type:String,required:true},
     ps:{type:String,required:true},
+    avatorUrl:{type:String},
+    email:{type:String},
 },
 {
     //集合名称
