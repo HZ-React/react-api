@@ -25,7 +25,7 @@ app.use('/user',user)
 app.use('/goods',goods)
 
 app.use('/root',root)//前面
-app.use('/Classify',Classify)//前面
+app.use('/Classify',Classify)
 
 app.listen(3000,()=>{
   console.log('服务器启动成功')
