@@ -4,6 +4,9 @@ let verifyTokenMiddle = (req,res,next) =>{
     if(req.originalUrl === '/root/login'){
         next()
         return false
+    }else if(req.originalUrl.indexOf('api-react/public')!=-1){
+        next()
+        return false
     }
     let {token} = req.body
     if(!token){ token = req.query.token}
