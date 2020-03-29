@@ -50,6 +50,16 @@ router.post('/login',(req,res)=>{
     })
 })
 
+//更新个人信息
+router.post('/update',async (req,res)=>{
+    let {_id} = req.body
+    let result =await Root.findOne({_id})
+    let {us=result.us,avatorUrl=result.avatorUrl,email=result.email} = req.body
+    Root.updateOne({_id},{us,avatorUrl,email})
+    .then(data=>{
+        res.send(data)
+    })
+})
     
 
 

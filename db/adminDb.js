@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 require('./connectDb')
 //创建表头
 let admin = new mongoose.Schema({
-    name:{type: String,required:true},
-    pass:{type: String,required:true}
+    userName:{type: String,required:true},
+    passWord:{type: String,required:true},
 },
 {
     // 集合名称
