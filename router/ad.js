@@ -18,8 +18,8 @@ router.get('/list',(req,res)=>{
 
   //图片信息增加
 router.post('/adadd',(req,res)=>{
-    let {name,jump,address} =req.body
-    martin_ad.insertMany({name,jump,address}).then((data)=>{
+    let {name,jump,address,type} =req.body
+    martin_ad.insertMany({name,jump,address,type}).then((data)=>{
     //   console.log(data)
     res.send({err:0,msg:'插入成功'})
   }).catch((err)=>{
