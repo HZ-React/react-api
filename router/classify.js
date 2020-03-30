@@ -32,7 +32,7 @@ router.post('/classifyfind',(req,res)=>{
 //添加
 router.post('/classifyadd',(req,res)=>{
     let{payload}=req.body
-    // payload=JSON.parse(payload)
+    payload=JSON.parse(payload)
     console.log(payload)
     let _id = payload._id
     console.log(_id)
