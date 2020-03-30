@@ -13,7 +13,7 @@ const Classify = require('../db/classifyDb')
  * @apiSuccess {String} data 管理员信息
  */
 router.get('/getinfo',(req,res)=>{//获取信息渲染页面
-    Classify.find({}).then(result=>{
+    Classify.find({}).sort({key:1}).then(result=>{
     if(result.length > 0){
       res.send({msg:'获取成功',code:0,result})
     }else{

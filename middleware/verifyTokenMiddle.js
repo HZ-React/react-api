@@ -8,6 +8,10 @@ let verifyTokenMiddle = (req,res,next) =>{
         next()
         return false
     }
+    else if(req.originalUrl.indexOf('goods/img')!=-1){
+        next()
+        return false
+    }
     let {token} = req.body
     if(!token){ token = req.query.token}
     if(!token){
