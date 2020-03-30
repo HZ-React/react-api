@@ -21,6 +21,14 @@ router.get('/getinfo',(req,res)=>{//获取信息渲染页面
     } 
   })
 })
+// 查询数据
+router.post('/classifyfind',(req,res)=>{
+  let{_id}=req.body
+  Classify.findOne({_id})
+  .then(data=>res.send({code:0,data,msg:'查询成功'}))
+  .catch(err=>res.send({code:-1,err,msg:'查询失败'}))
+})
+
 //添加
 router.post('/classifyadd',(req,res)=>{
     let{header,key,childern}=req.body
