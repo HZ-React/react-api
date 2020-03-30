@@ -33,9 +33,12 @@ router.post('/classifyfind',(req,res)=>{
 
 //添加
 router.post('/classifyadd',(req,res)=>{
-    let{header,key,childern}=req.body
-    childern=JSON.parse(childern)
-    Classify.insertMany({header,key,childern})
+    let{payload}=req.body
+    // payload=JSON.parse(payload)
+    console.log(payload)
+    let _id = payload._id
+    console.log(_id)
+    Classify.updateOne({_id},payload)
     .then(data=>res.send({code:0,data,msg:'添加成功'}))
     .catch(err=>res.send({code:-1,err,msg:'添加失败'}))
 })
