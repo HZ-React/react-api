@@ -30,12 +30,22 @@ router.post('/classifyadd',(req,res)=>{
     .catch(err=>res.send({code:-1,err,msg:'添加失败'}))
 })
 //删除
-router.post('/classifydel',(req,res)=>{
-  let {_id}=req.body
-  Classify.deleteOne({_id})
-  .then(data=>res.send({code:0,data,msg:'删除成功'}))
-  .catch(err=>res.send({code:-1,err,msg:'删除失败'}))
+router.post('/classifydel',async (req,res)=>{
+  let {_id,Cindex}=req.body//cindex是childern下面的的每一项项的索引
+  let result = await Classify.findOne({_id})
+  result.childern.splice(Cindex,1)
+  result.childern.map((item,index)=>{
+    let KeyOne=item.key.split('-')[0]//获取每条数据的索引
+    item.key=`${KeyOne}-${index+1}`//index每一项的索引
+  })
+  result = await Classify.updateOne({_id},result)
+  if(result.nModified == 1){
+    res.send({code:0,data,msg:'删除成功'})
+  }else{
+    res.send({code:-1,err,msg:'删除失败'})
+  }
 })
+
 //修改
 router.post('/classifyupdate',(req,res)=>{
   let{header,key,childern,_id}=req.body
