@@ -40,9 +40,9 @@ router.post('/classifydel',async (req,res)=>{
   })
   result = await Classify.updateOne({_id},result)
   if(result.nModified == 1){
-    res.send({code:0,data,msg:'删除成功'})
+    res.send({code:0,msg:'删除成功'})
   }else{
-    res.send({code:-1,err,msg:'删除失败'})
+    res.send({code:-1,msg:'删除失败'})
   }
 })
 
