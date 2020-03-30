@@ -12,10 +12,8 @@ const Classify = require('../db/classifyDb')
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 管理员信息
  */
-
- //获取信息渲染页面
-router.get('/getinfo',(req,res)=>{
-    Classify.find({}).then(result=>{
+router.get('/getinfo',(req,res)=>{//获取信息渲染页面
+    Classify.find({}).sort({key:1}).then(result=>{
     if(result.length > 0){
       res.send({msg:'获取成功',code:0,result})
     }else{
