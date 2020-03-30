@@ -4,7 +4,7 @@ const admin = require('./router/admin')
 const user = require('./router/user')
 const Classify = require('./router/classify')
 const goods = require('./router/goods')
-
+const ad = require('./router/ad')
 const root =require('./router/root')
 
 const  path = require('path')
@@ -23,7 +23,7 @@ app.use('/admin',admin)
 app.use('/user',user)
 
 app.use('/goods',goods)
-
+app.use('/ad',ad)
 app.use('/root',root)//前面
 app.use('/Classify',Classify)
 
