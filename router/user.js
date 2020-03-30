@@ -64,6 +64,7 @@ router.get('/list',(req,res)=>{
   let {}=req.body
   martin.find({})
   .then(data=>{
+    
     res.send({mes:'成功',code:0,data})
   })
   .catch(err=>{
