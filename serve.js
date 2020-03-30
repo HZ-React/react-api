@@ -2,7 +2,7 @@ const express=require('express')
 const bodyParser = require('body-parser')
 const admin = require('./router/admin')
 const user = require('./router/user')
-
+const Classify = require('./router/classify')
 const goods = require('./router/goods')
 
 const root =require('./router/root')
@@ -25,7 +25,7 @@ app.use('/user',user)
 app.use('/goods',goods)
 
 app.use('/root',root)//前面
-
+app.use('/Classify',Classify)
 
 app.listen(3000,()=>{
   console.log('服务器启动成功')

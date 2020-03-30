@@ -1,7 +1,34 @@
 const express=require('express')
+const  multer = require('multer')
+const  fs = require('fs')
+const  path = require('path')
+const  upload = multer({})
 const router = express.Router()
 const Zhangcaijiang = require('../db/goodsDb')
 
+//查询一个商品的信息
+router.post('/goodsone',(req,res)=>{
+  let {_id}=req.body
+  console.log(_id)
+  Zhangcaijiang.findOne({_id}).then(data=>{
+    //   console.log(data)
+    res.send({mes:'数据查询成功',data})
+  }).catch((err)=>{
+   console.log(err)
+  })
+})
+//更新一个商品的信息
+// router.post('/goodsupdate',(req,res)=>{
+//   let {_id}=req.body
+//   let {name,desc,price,path,stock,putaway,type} =req.body
+//   console.log(_id)
+//   Zhangcaijiang.findByIdAndUpdate({_id},{name,desc,price,path,stock,putaway,type}).then(data=>{
+//     //   console.log(data)
+//     res.send({mes:'数据更新成功',data})
+//   }).catch((err)=>{
+//    console.log(err)
+//   })
+// })
 /**
  * @api {git} /goods/goodslist   获取商品信息
  * @apiName goodslist
@@ -15,6 +42,8 @@ router.get('/goodslist',(req,res)=>{
   Zhangcaijiang.find({}).then(data=>{
     //   console.log(data)
     res.send({mes:'数据查询成功',data})
+  }).catch((err)=>{
+   console.log(err)
   })
 })
 /**
@@ -47,9 +76,11 @@ router.post('/goodsadd',(req,res)=>{
 router.post('/goodsdel',(req,res)=>{
     // 获取要删除数据的id
     let {_id} = req.body
-    Zhangcaijiang.deleteOne(_id)
+    Zhangcaijiang.deleteOne({_id})
     .then(()=>{res.send({err:0,msg:'删除成功'})})
-    .catch((err)=>{res.send({err:-1,msg:'删除失败请重试'})}) 
+    .catch((err)=>{
+      console.log(err)
+      res.send({err:-1,msg:'删除失败请重试'})}) 
   })
   /**
  * @api {git} /goods/goodsupdate   更新货品信息
@@ -86,8 +117,8 @@ router.post('/goodsbypage',async (req,res)=>{
     let page = req.body.page||1 //查询的第几页数据
     let pageSize = req.body.pageSize ||2 //每页几条数据
     Zhangcaijiang.find().skip((Number(page)-1)*pageSize).limit(Number(pageSize)).then((data)=>{
-    //  console.log(data)
-     res.send({err:0,msg:'查询成功',data})
+     console.log(data)
+     res.send({err:0,msg:'查询成功',data,allCount})
     }).catch(()=>{
         (err)=>{res.send({err:-1,msg:'查询失败请重试'})}
     })  
@@ -138,14 +169,21 @@ let findGoodGByKw = async (kw,page,pageSize)=>{
  * @apiSuccess {String} msg  信息提示.
  * @apiSuccess {String} data 用户信息信息
  */
-let  findGoodByType = async (type) =>{
-    let result = await Zhangcaijiang.find({type})
-    return result
+let  findGoodByType = async (type,page,pageSize) =>{
+    let allGoods=await Zhangcaijiang.find({type})
+    let allCount=allGoods.length
+    let result = await Zhangcaijiang.find({type}).skip(Number((page-1)*pageSize)).limit(Number(pageSize))
+     
+    // let allCount=result.length
+    console.log(allCount)
+    return {result,allCount}
   }
 router.post('/goodsbytype',(req,res)=>{
     let {type} = req.body 
+    let page = req.body.page||1
+    let pageSize = req.body.pageSize||2
     console.log(type)
-    findGoodByType(type)
+    findGoodByType(type,page,pageSize)
     .then((data)=>{
      res.send({err:0,msg:'查询成功',list:data})
    })
@@ -154,4 +192,30 @@ router.post('/goodsbytype',(req,res)=>{
        res.send({err:-1,msg:'查询失败请重试'})})
   
   })
+//文件上传
+router.post('/img',upload.single('hehe'),(req,res)=>{
+  console.log(req.file)
+  let {buffer,mimetype,size} = req.file 
+  // 判断尺寸 1.前端判断 2.后端判断
+  if(size >= 200000){
+    return res.send({err:-1,msg:'图片尺寸过大'})
+  }
+  // 限制文件类型 1.前端判断 2.后端判断
+  let typs=['jpg','gif','png','jpeg']
+  let extName = mimetype.split('/')[1]
+  if(typs.indexOf(extName)===-1){
+    return  res.send({err:-2,msg:'图片类型错误'})
+  }
+  // 将文件写到静态资源目录下
+  let name= (new Date()).getTime()+`_`+parseInt(Math.random()*999999)
+  fs.writeFile(path.join(__dirname,`../www/${name}.${extName}`),buffer,(err)=>{
+    if(err){
+      // http://localhost:3000/public/img/1581646169249_646178.jpeg
+      console.log(err)
+      res.send({err:-3,msg:'上传失败请重试'})
+    }else{
+      res.send({err:0,msg:'上传成功',path:`http://182.92.107.225:3000/api-react/www/${name}.${extName}`})
+    }
+  })
+})
 module.exports = router
