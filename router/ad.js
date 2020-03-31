@@ -50,5 +50,45 @@ router.post('/adupdate',(req,res)=>{
     res.send({err:-1,msg:'更新失败'})
     })
 })
+//分页查询
+router.post('/adbypage',async (req,res)=>{
+    let allad=await martin_ad.find()
+    console.log(allad)
+    let allCount=allad.length
+    console.log("数量",allCount)
+    let page = req.body.page||1 //查询的第几页数据
+    let pageSize = req.body.pageSize ||2 //每页几条数据
+    martin_ad.find().skip((Number(page)-1)*pageSize).limit(Number(pageSize)).then((data)=>{
+    
+     res.send({err:0,msg:'查询成功',data,allCount})
+    }).catch(()=>{
+        (err)=>{res.send({err:-1,msg:'查询失败请重试'})}
+    })  
+})
+
+//分类查询
+let  findAdByType = async (type,page,pageSize) =>{
+    let allAd=await martin_ad.find({type})
+    let allCount=allAd.length
+    let result = await martin_ad.find({type}).skip(Number((page-1)*pageSize)).limit(Number(pageSize))
+     
+    // let allCount=result.length
+    console.log(allCount)
+    return {result,allCount}
+  }
+router.post('/adbytype',(req,res)=>{
+    let {type} = req.body 
+    let page = req.body.page||1  
+    let pageSize = req.body.pageSize||2
+    console.log(type)
+    findGoodByType(type,page,pageSize)
+    .then((data)=>{
+     res.send({err:0,msg:'查询成功',list:data})
+   })
+   .catch((err)=>{
+       console.log(err)
+       res.send({err:-1,msg:'查询失败请重试'})})
+  
+  })
 
   module.exports = router
