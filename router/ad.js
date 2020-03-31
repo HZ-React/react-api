@@ -66,22 +66,22 @@ router.post('/adbypage',async (req,res)=>{
     })  
 })
 
-//分类查询
+// 分类查询
 let  findAdByType = async (type,page,pageSize) =>{
     let allAd=await martin_ad.find({type})
     let allCount=allAd.length
     let result = await martin_ad.find({type}).skip(Number((page-1)*pageSize)).limit(Number(pageSize))
      
     // let allCount=result.length
-    console.log(allCount)
+    // console.log(allCount)
     return {result,allCount}
   }
 router.post('/adbytype',(req,res)=>{
     let {type} = req.body 
     let page = req.body.page||1  
     let pageSize = req.body.pageSize||2
-    console.log(type)
-    findGoodByType(type,page,pageSize)
+    console.log("类型",type)
+    findAdByType(type,page,pageSize)
     .then((data)=>{
      res.send({err:0,msg:'查询成功',list:data})
    })
