@@ -60,7 +60,6 @@ router.post('/update',async (req,res)=>{
         res.send(data)
     })
 })
-    
 
 
 module.exports = router
