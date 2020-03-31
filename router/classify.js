@@ -32,7 +32,7 @@ router.post('/classifyfind',(req,res)=>{
 //添加
 router.post('/classifyadd',(req,res)=>{
     let{payload}=req.body
-    // payload=JSON.parse(payload)
+    payload=JSON.parse(payload)
     console.log(payload)
     let _id = payload._id
     console.log(_id)
@@ -59,12 +59,12 @@ router.post('/classifydel',async (req,res)=>{
 
 //修改
 router.post('/classifyupdate',(req,res)=>{
-  let{header,key,childern,_id}=req.body
-  childern=JSON.parse(childern)
-  Classify.updateOne({_id},{header,key,childern})
+  let{payload}=req.body
+  payload=JSON.parse(payload)
+  let _id = payload._id
+  Classify.updateOne({_id},payload)
   .then(data=>res.send({code:0,data,msg:'修改成功'}))
   .catch(err=>res.send({code:-1,err,msg:'修改失败'}))
 })
-
 
 module.exports = router
