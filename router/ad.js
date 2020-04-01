@@ -2,6 +2,17 @@ const express=require('express')
 const router = express.Router()
 const martin_ad=require('../db/adDb')
 
+//查询一个广告的信息
+router.post('/adone',(req,res)=>{
+    let {_id}=req.body
+    console.log(_id)
+    martin_ad.findOne({_id}).then(data=>{
+      res.send({mes:'数据查询成功',data})
+    }).catch((err)=>{
+     console.log(err)
+    })
+  })
+
 //列表渲染
 router.get('/list',(req,res)=>{
     let {}=req.body
