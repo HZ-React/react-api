@@ -13,8 +13,9 @@ const Classify = require('../db/classifyDb')
  * @apiSuccess {String} data 管理员信息
  */
 router.get('/getinfo',(req,res)=>{//获取信息渲染页面
-    Classify.find({}).sort({key:1}).then(result=>{
+    Classify.find({}).then(result=>{
     if(result.length > 0){
+      result.sort((a,b)=>a.key - b.key)
       res.send({msg:'获取成功',code:0,result})
     }else{
       res.send({msg:'获取失败',code:-1})

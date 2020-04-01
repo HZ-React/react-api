@@ -1,6 +1,7 @@
 const {verifyToken} = require('../util/jwt')
+const  Root=require ('../db/rootDb')
 // 验证token中间件
-let verifyTokenMiddle = (req,res,next) =>{
+let verifyTokenMiddle =async (req,res,next) =>{
     if(req.originalUrl === '/root/login'){
         next()
         return false
@@ -19,7 +20,8 @@ let verifyTokenMiddle = (req,res,next) =>{
         return false
     }
     let result = verifyToken(token)
-    if(result && result != 'jwt expired'){
+    let data = await Root.find({token})
+    if(result && result != 'jwt expired' && result != 'jwt malformed' && data.length>0){
         next()
     }else{
         let mes

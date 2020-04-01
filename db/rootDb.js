@@ -7,6 +7,7 @@ let rootScheme=mongoose.Schema({
     ps:{type:String,required:true},
     avatorUrl:{type:String},
     email:{type:String},
+    token:{type:String,required:true}
 },
 {
     //集合名称
