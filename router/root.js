@@ -25,7 +25,8 @@ router.get('/find',(req,res)=>{//后面
 // 添加
 router.post('/add',superAdmin,(req,res)=>{//后面
     let{us,ps}=req.body
-    Root.insertMany({us,ps})
+    let token = sendToken({us,ps})
+    Root.insertMany({us,ps,token})
     .then(data=>res.send({code:0,data,msg:'添加成功'}))
     .catch(err=>res.send({code:-1,err,msg:'添加失败'}))
 })
@@ -43,7 +44,13 @@ router.post('/login',(req,res)=>{
     .then(data=>{
         if(data!==null){
             let token = sendToken({us,ps})
-            res.send({code:0,data,msg:'查询成功',token})
+            Root.update({us,ps},{token}).then(result=>{
+                if(result.nModified == 1){
+                    res.send({code:0,data,msg:'查询成功',token})
+                }else{
+                    res.send({code:-1,msg:'网路繁忙,请重试'})
+                }
+            })
         }else{
             res.send({code:-1,msg:'登陆失败'})
         }
@@ -61,5 +68,13 @@ router.post('/update',async (req,res)=>{
     })
 })
 
+//  查询
+router.get('/findone',(req,res)=>{//后面
+    let {_id} = req.query
+    console.log(_id)
+    Root.findOne({_id}).then(result=>console.log(result))
+    .then(data=>res.send({code:0,data,msg:'查询成功'}))
+    .catch(err=>res.send({code:-1,err,msg:'查询失败'}))
+})
 
 module.exports = router
