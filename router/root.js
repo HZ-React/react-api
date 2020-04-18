@@ -72,7 +72,7 @@ router.post('/update',async (req,res)=>{
 router.get('/findone',(req,res)=>{//后面
     let {_id} = req.query
     console.log(_id)
-    Root.findOne({_id}).then(result=>console.log(result))
+    Root.findOne({_id})
     .then(data=>res.send({code:0,data,msg:'查询成功'}))
     .catch(err=>res.send({code:-1,err,msg:'查询失败'}))
 })
